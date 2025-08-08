@@ -29,33 +29,40 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
+    // ...（省略）
     if (request.method === 'POST') {
       try {
-        const data: SurveyData = await request.json();
+        // 【ここを修正します】
+        const requestBodyText = await request.text();
+        console.log('受け取ったリクエストボディ:', requestBodyText);
+
+        const data: SurveyData = JSON.parse(requestBodyText);
 
         // 必須項目である host と rate のバリデーション
         if (!data.host || typeof data.rate !== 'number' || data.rate < 1 || data.rate > 5) {
-            return new Response(JSON.stringify({ error: 'ちゃんと評価してや〜！' }), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json', ...corsHeaders },
-            });
+          return new Response(JSON.stringify({ error: 'ちゃんと評価してや〜！' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders },
+          });
         }
-        
+    
         // timestampをサーバー側で生成
         data.timestamp = Date.now();
 
         // ユニークなID（UUID）をキーとして生成
         const key = uuidv4();
-        
+    
         // データをJSON文字列に変換してKVに保存
         await env.SURVEY_ANSWERS.put(key, JSON.stringify(data));
-        
+    
         return new Response(JSON.stringify({ message: 'たぶんアンケート回答を保存できました．', key: key }), {
           status: 200,
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
         });
 
       } catch (e) {
+        // エラーメッセージを分かりやすく出力
+        console.error('JSONパースエラー:', e);
         return new Response(JSON.stringify({ error: 'リクエストの形式が間違うてる気がするかもしれません．' }), {
           status: 400,
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
