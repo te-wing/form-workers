@@ -1,0 +1,7 @@
+name = "form-workers"
+main = "src/index.ts"
+compatibility_date = "2025-08-07"
+
+[[kv_namespaces]]
+binding = "SURVEY_ANSWERS" 
+id = "${SURVEY_ANSWERS_ID}"
