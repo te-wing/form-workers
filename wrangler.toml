@@ -4,4 +4,4 @@ compatibility_date = "2023-01-01"
 
 [[kv_namespaces]]
 binding = "SURVEY_ANSWERS" 
-id = "${SURVEY_ANSWERS_ID}"
+id = "d3bb8280892147d6ad54451d8bd86aae"
