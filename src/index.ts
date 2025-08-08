@@ -35,7 +35,7 @@ export default {
 
         // 必須項目である host と rate のバリデーション
         if (!data.host || typeof data.rate !== 'number' || data.rate < 1 || data.rate > 5) {
-            return new Response(JSON.stringify({ error: 'host と rate は必須項目です。' }), {
+            return new Response(JSON.stringify({ error: 'ちゃんと評価してや〜！' }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json', ...corsHeaders },
             });
@@ -50,20 +50,20 @@ export default {
         // データをJSON文字列に変換してKVに保存
         await env.SURVEY_ANSWERS.put(key, JSON.stringify(data));
         
-        return new Response(JSON.stringify({ message: 'アンケート回答を保存しました。', key: key }), {
+        return new Response(JSON.stringify({ message: 'たぶんアンケート回答を保存できました．', key: key }), {
           status: 200,
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
         });
 
       } catch (e) {
-        return new Response(JSON.stringify({ error: 'リクエストの形式が正しくありません。' }), {
+        return new Response(JSON.stringify({ error: 'リクエストの形式が間違うてる気がするかもしれません．' }), {
           status: 400,
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
         });
       }
     }
 
-    return new Response(JSON.stringify({ error: '許可されていないHTTPメソッドです。' }), {
+    return new Response(JSON.stringify({ error: 'こんなHTTPメソッドは許可してへんぞ！' }), {
       status: 405,
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     });
