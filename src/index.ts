@@ -37,7 +37,7 @@ export default {
 
         // Turnstileトークンがない場合はエラー
         if (!token) {
-          return new Response(JSON.stringify({ error: 'Turnstile認証が足りてへんかもしれません．' }), {
+          return new Response(JSON.stringify({ error: 'Turnstile認証してから出直してください．' }), {
             status: 400,
             headers: { 'Content-Type': 'application/json', ...corsHeaders },
           });
@@ -57,7 +57,7 @@ export default {
         // 検証失敗
         if (!verificationResult.success) {
           console.error('Turnstile検証失敗:', verificationResult['error-codes']);
-          return new Response(JSON.stringify({ error: 'ロボットやったらごめんなさい．でも認証に失敗しました．' }), {
+          return new Response(JSON.stringify({ error: 'あなたはロボットです．' }), {
             status: 403,
             headers: { 'Content-Type': 'application/json', ...corsHeaders },
           });
